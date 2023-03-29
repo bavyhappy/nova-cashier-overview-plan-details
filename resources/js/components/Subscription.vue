@@ -7,17 +7,9 @@
     <card class="mb-6 flex flex-col py-3 px-6">
       <database-details :subscription="databaseSubscription" :loading="loading.database" />
 
-      <stripe-details
-        v-if="databaseSubscription"
-        :subscription="stripeSubscription"
-        :invoices="invoices"
-        :plans="plans"
-        :loading="loading.stripe"
-        @manage-clicked="fetchStripeSubscription"
-        @update-plan="updatePlan"
-        @cancel-subscription="cancelSubscription"
-        @resume-subscription="resumeSubscription"
-      />
+      <stripe-details v-if="databaseSubscription" :subscription="stripeSubscription" :invoices="invoices" :plans="plans"
+        :loading="loading.stripe" @manage-clicked="fetchStripeSubscription" @update-plan="updatePlan"
+        @cancel-subscription="cancelSubscription" @resume-subscription="resumeSubscription" />
     </card>
   </div>
 </template>
@@ -48,7 +40,7 @@ export default {
   },
 
   data: () => ({
-    baseEndpoint: '/nova-vendor/nova-cashier-overview/',
+    baseEndpoint: '/nova-vendor/nova-cashier-overview-plan-details/',
     loading: {
       database: true,
       stripe: false,

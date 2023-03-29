@@ -3,8 +3,10 @@ let mix = require('laravel-mix');
 require('./mix');
 
 mix
-  .setPublicPath('dist')
-  .js('resources/js/tool.js', 'js')
-  .vue({ version: 3 })
-  .css('resources/css/tool.css', 'css')
-  .nova('limedeck/nova-cashier-overview');
+    .setPublicPath('dist')
+    .js('resources/js/tool.js', 'js')
+    .vue({
+        version: 3
+    })
+    .css('resources/css/tool.css', 'css')
+    .nova('bavyhappy/nova-cashier-overview-plan-details');

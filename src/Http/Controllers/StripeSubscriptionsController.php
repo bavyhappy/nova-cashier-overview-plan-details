@@ -2,6 +2,7 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
+use App\Models\Price;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Laravel\Cashier\Subscription;
@@ -21,7 +22,7 @@ class StripeSubscriptionsController extends Controller
         /** @var \Laravel\Cashier\Subscription $subscription */
         $subscription = Subscription::find($subscriptionId);
 
-        if (! $subscription) {
+        if (!$subscription) {
             return [
                 'subscription' => null,
             ];
@@ -92,12 +93,15 @@ class StripeSubscriptionsController extends Controller
     {
         $stripeSubscription = StripeSubscription::retrieve($subscription->stripe_id);
 
+        // dd('@test', $stripeSubscription->plan->id, $stripeSubscription);
+        $price = Price::whereStripeId($stripeSubscription->plan->id)->first();
+
         return array_merge($subscription->toArray(), [
             'plan_amount' => $stripeSubscription->plan->amount,
             'plan_interval' => $stripeSubscription->plan->interval,
             'plan_currency' => $stripeSubscription->plan->currency,
-            'plan' => $subscription->stripe_plan,
-            'stripe_plan' => $stripeSubscription->plan->id,
+            'plan' => $price->product()->first()->name,
+            'stripe_plan' => $price->product()->first()->name,
             'ended' => $subscription->ended(),
             'canceled' => $subscription->canceled(),
             'active' => $subscription->active(),
@@ -123,8 +127,16 @@ class StripeSubscriptionsController extends Controller
     protected function formatPlans($plans)
     {
         return collect($plans->data)->map(function (Plan $plan) {
+            $prices = Price::all();
+            $name = null;
+            foreach ($prices as $price) {
+                if ($price->stripe_id == $plan->id) {
+                    $name = $price->product()->first()->name;
+                }
+            }
             return [
                 'id' => $plan->id,
+                'name' => $name ?? $plan->id,
                 'price' => $plan->amount,
                 'interval' => $plan->interval,
                 'currency' => $plan->currency,

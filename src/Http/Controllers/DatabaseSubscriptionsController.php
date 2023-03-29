@@ -2,6 +2,7 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
+use App\Models\Price;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Subscription;
 
@@ -26,7 +27,7 @@ class DatabaseSubscriptionsController extends Controller
             $this->request->query('subscription', 'default')
         );
 
-        if (! $subscription) {
+        if (!$subscription) {
             return [
                 'subscription' => null,
             ];
@@ -43,12 +44,14 @@ class DatabaseSubscriptionsController extends Controller
      */
     protected function formatSubscription(Subscription $subscription)
     {
+        $price = Price::whereStripeId($subscription->stripe_price)->first();
+
         return array_merge($subscription->toArray(), [
-            'plan'            => $subscription->stripe_price,
-            'ended'           => $subscription->ended(),
-            'canceled'        => $subscription->canceled(),
-            'active'          => $subscription->active(),
-            'on_trial'        => $subscription->onTrial(),
+            'plan' => $price->product()->first()->name,
+            'ended' => $subscription->ended(),
+            'canceled' => $subscription->canceled(),
+            'active' => $subscription->active(),
+            'on_trial' => $subscription->onTrial(),
             'on_grace_period' => $subscription->onGracePeriod(),
         ]);
     }

@@ -3,7 +3,9 @@
     "description": "Interact with your Stripe subscriptions directly inside Nova.",
     "keywords": [
         "laravel",
-        "nova"
+        "nova",
+        "stripe",
+        "cashier"
     ],
     "license": "MIT",
     "repositories": [
@@ -44,6 +46,6 @@
     "config": {
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

@@ -31,13 +31,13 @@ This package has been heavily inspired by [themsaid/nova-cashier-manager](https:
 You can install the nova tool in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
 
 ```bash
-composer require limedeck/nova-cashier-overview
+composer require bavyhappy/nova-cashier-overview-plan-details
 ```
 
 Next up, you use the resource tool with Nova. This is typically done in the `fields` method of the desired Nova Resource.
 
 ```php
-use LimeDeck\NovaCashierOverview\Subscription;
+use Bavyhappy\NovaCashierOverviewPlanDetail;
 
 // ...
 

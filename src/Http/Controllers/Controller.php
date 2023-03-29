@@ -1,6 +1,6 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview\Http\Controllers;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview\Http\Controllers;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;

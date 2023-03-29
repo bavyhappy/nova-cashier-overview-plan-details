@@ -1,6 +1,6 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview\Providers;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +21,7 @@ class CashierOverviewServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-cashier-overview', __DIR__.'/../../dist/js/tool.js');
+            Nova::script('nova-cashier-overview-plan-details', __DIR__.'/../../dist/js/tool.js');
         });
     }
 
@@ -37,8 +37,8 @@ class CashierOverviewServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['nova'])
-            ->namespace('LimeDeck\NovaCashierOverview\Http\Controllers')
-            ->prefix('nova-vendor/nova-cashier-overview')
+            ->namespace('Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers')
+            ->prefix('nova-vendor/nova-cashier-overview-plan-details')
             ->group(__DIR__.'/../../routes/api.php');
     }
 

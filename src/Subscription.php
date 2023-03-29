@@ -1,6 +1,6 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail;
 
 use Laravel\Nova\ResourceTool;
 

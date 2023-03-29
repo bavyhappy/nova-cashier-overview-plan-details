@@ -1,5 +1,5 @@
 {
-    "name": "limedeck/nova-cashier-overview",
+    "name": "bavyhappy/nova-cashier-overview-plan-details",
     "description": "Interact with your Stripe subscriptions directly inside Nova.",
     "keywords": [
         "laravel",
@@ -23,18 +23,18 @@
     },
     "autoload": {
         "psr-4": {
-            "LimeDeck\\NovaCashierOverview\\": "src/"
+            "Bavyhappy\\NovaCashierOverviewPlanDetail\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LimeDeck\\NovaCashierOverview\\Tests\\": "tests/"
+            "Bavyhappy\\NovaCashierOverviewPlanDetail\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "LimeDeck\\NovaCashierOverview\\Providers\\CashierOverviewServiceProvider"
+                "Bavyhappy\\NovaCashierOverviewPlanDetail\\Providers\\CashierOverviewServiceProvider"
             ]
         }
     },

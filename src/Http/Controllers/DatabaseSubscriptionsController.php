@@ -1,6 +1,6 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview\Http\Controllers;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Subscription;

@@ -1,8 +1,8 @@
 <?php
 
-namespace LimeDeck\NovaCashierOverview\Tests\Http\Controllers;
+namespace Bavyhappy\NovaCashierOverviewPlanDetail\Tests\Http\Controllers;
 
-use LimeDeck\NovaCashierOverview\Tests\TestCase;
+use Bavyhappy\NovaCashierOverviewPlanDetail\Tests\TestCase;
 
 class PassingTest extends TestCase
 {

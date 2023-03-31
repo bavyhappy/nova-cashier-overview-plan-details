@@ -16,12 +16,14 @@ class CashierOverviewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerPublishing();
+
         $this->app->booted(function () {
             $this->routes();
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-cashier-overview-plan-details', __DIR__.'/../../dist/js/tool.js');
+            Nova::script('nova-cashier-overview-plan-details', __DIR__ . '/../../dist/js/tool.js');
         });
     }
 
@@ -39,7 +41,7 @@ class CashierOverviewServiceProvider extends ServiceProvider
         Route::middleware(['nova'])
             ->namespace('Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers')
             ->prefix('nova-vendor/nova-cashier-overview-plan-details')
-            ->group(__DIR__.'/../../routes/api.php');
+            ->group(__DIR__ . '/../../routes/api.php');
     }
 
     /**
@@ -50,5 +52,19 @@ class CashierOverviewServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    protected function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
+            ], 'cashier-overview-details-migrations');
+        }
     }
 }

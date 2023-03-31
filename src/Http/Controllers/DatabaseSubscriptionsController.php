@@ -2,7 +2,7 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
-use App\Models\Price;
+use App\Models\Plan;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Subscription;
 
@@ -44,7 +44,7 @@ class DatabaseSubscriptionsController extends Controller
      */
     protected function formatSubscription(Subscription $subscription)
     {
-        $price = Price::whereStripeId($subscription->stripe_price)->first();
+        $price = Plan::whereStripeId($subscription->stripe_price)->first();
 
         return array_merge($subscription->toArray(), [
             'plan' => $price->product()->first()->name,

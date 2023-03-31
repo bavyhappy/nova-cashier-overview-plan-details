@@ -2,7 +2,7 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
-use App\Models\Price;
+use App\Models\Plan as ModelsPlan;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Laravel\Cashier\Subscription;
@@ -94,7 +94,7 @@ class StripeSubscriptionsController extends Controller
         $stripeSubscription = StripeSubscription::retrieve($subscription->stripe_id);
 
         // dd('@test', $stripeSubscription->plan->id, $stripeSubscription);
-        $price = Price::whereStripeId($stripeSubscription->plan->id)->first();
+        $price = ModelsPlan::whereStripeId($stripeSubscription->plan->id)->first();
 
         return array_merge($subscription->toArray(), [
             'plan_amount' => $stripeSubscription->plan->amount,
@@ -127,21 +127,20 @@ class StripeSubscriptionsController extends Controller
     protected function formatPlans($plans)
     {
         return collect($plans->data)->map(function (Plan $plan) {
-            $prices = Price::all();
-            $name = null;
-            foreach ($prices as $price) {
-                if ($price->stripe_id == $plan->id) {
-                    $name = $price->product()->first()->name;
-                }
+            $price = ModelsPlan::whereStripeId($plan->id)->first();
+            if (is_null($price)) {
+                return false;
             }
             return [
                 'id' => $plan->id,
-                'name' => $name ?? $plan->id,
+                'name' => $price->product()->first()->name,
                 'price' => $plan->amount,
                 'interval' => $plan->interval,
                 'currency' => $plan->currency,
                 'interval_count' => $plan->interval_count,
             ];
+        })->reject(function ($value) {
+            return $value === false;
         })->toArray();
     }
 

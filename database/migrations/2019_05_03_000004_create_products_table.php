@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->text('description')->nullable();
             $table->string('stripe_id')->unique();
             $table->string('default_price')->nullable();
             $table->boolean('active')->default(true);

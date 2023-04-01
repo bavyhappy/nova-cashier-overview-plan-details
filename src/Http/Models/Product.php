@@ -16,16 +16,17 @@ class Product extends Model
      */
     protected $fillable = [
         'name',
+        'description',
         'stripe_id',
         'default_price',
         'active',
     ];
 
     /**
-     * Get the prices associated ad project.
+     * Get the plans associated ad project.
      */
-    public function prices()
+    public function plans()
     {
-        return $this->hasMany(Price::class);
+        return $this->hasMany(Plan::class);
     }
 }

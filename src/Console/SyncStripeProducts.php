@@ -36,6 +36,7 @@ class SyncStripeProducts extends Command
             if (!in_array($product->id, $existProducts)) {
                 Product::create([
                     'name' => $product->name,
+                    'description' => $product->description,
                     'stripe_id' => $product->id,
                     'default_price' => $product->default_price,
                     'active' => $product->active,

@@ -128,7 +128,7 @@ class StripeSubscriptionsController extends Controller
     {
         return collect($plans->data)->map(function (Plan $plan) {
             $price = ModelsPlan::whereStripeId($plan->id)->first();
-            if (is_null($price)) {
+            if (is_null($price) || $price->product()->first()->active == false) {
                 return false;
             }
             return [

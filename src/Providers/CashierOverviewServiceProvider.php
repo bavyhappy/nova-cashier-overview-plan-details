@@ -2,6 +2,8 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Providers;
 
+use Bavyhappy\NovaCashierOverviewPlanDetail\Console\SyncStripePlans;
+use Bavyhappy\NovaCashierOverviewPlanDetail\Console\SyncStripeProducts;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
@@ -16,7 +18,9 @@ class CashierOverviewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerMigrations();
         $this->registerPublishing();
+        $this->registerCommands();
 
         $this->app->booted(function () {
             $this->routes();
@@ -55,6 +59,18 @@ class CashierOverviewServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the package migrations.
+     *
+     * @return void
+     */
+    protected function registerMigrations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        }
+    }
+
+    /**
      * Register the package's publishable resources.
      *
      * @return void
@@ -65,6 +81,21 @@ class CashierOverviewServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
             ], 'cashier-overview-details-migrations');
+        }
+    }
+
+    /**
+     * Register the package's commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                SyncStripePlans::class,
+                SyncStripeProducts::class
+            ]);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Bavyhappy\NovaCashierOverviewPlanDetail\Http\Controllers;
 
-use App\Models\Plan;
+use Bavyhappy\NovaCashierOverviewPlanDetail\Http\Models\Plan;
 use Laravel\Cashier\Cashier;
 use Laravel\Cashier\Subscription;
 

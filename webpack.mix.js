@@ -8,5 +8,4 @@ mix
     .vue({
         version: 3
     })
-    .css('resources/css/tool.css', 'css')
     .nova('bavyhappy/nova-cashier-overview-plan-details');

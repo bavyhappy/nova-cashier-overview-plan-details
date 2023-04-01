@@ -96,12 +96,15 @@ class StripeSubscriptionsController extends Controller
         // dd('@test', $stripeSubscription->plan->id, $stripeSubscription);
         $price = ModelsPlan::whereStripeId($stripeSubscription->plan->id)->first();
 
+        $product = $price->product()->first();
+
         return array_merge($subscription->toArray(), [
             'plan_amount' => $stripeSubscription->plan->amount,
             'plan_interval' => $stripeSubscription->plan->interval,
             'plan_currency' => $stripeSubscription->plan->currency,
-            'plan' => $price->product()->first()->name,
-            'stripe_plan' => $price->product()->first()->name,
+            'plan' => $product->name,
+            'stripe_plan' => $product->name,
+            'plan_description' => $product->description,
             'ended' => $subscription->ended(),
             'canceled' => $subscription->canceled(),
             'active' => $subscription->active(),
@@ -126,14 +129,16 @@ class StripeSubscriptionsController extends Controller
      */
     protected function formatPlans($plans)
     {
-        return collect($plans->data)->map(function (Plan $plan) {
-            $price = ModelsPlan::whereStripeId($plan->id)->first();
+        $year = collect($plans->data)->map(function (Plan $plan) {
+            $price = ModelsPlan::whereStripeId($plan->id)->whereInterval('year')->first();
             if (is_null($price) || $price->product()->first()->active == false) {
                 return false;
             }
+            $product = $price->product()->first();
             return [
                 'id' => $plan->id,
-                'name' => $price->product()->first()->name,
+                'name' => $product->name,
+                'description' => $product->description,
                 'price' => $plan->amount,
                 'interval' => $plan->interval,
                 'currency' => $plan->currency,
@@ -142,6 +147,30 @@ class StripeSubscriptionsController extends Controller
         })->reject(function ($value) {
             return $value === false;
         })->toArray();
+
+        $month = collect($plans->data)->map(function (Plan $plan) {
+            $price = ModelsPlan::whereStripeId($plan->id)->whereInterval('month')->first();
+            if (is_null($price) || $price->product()->first()->active == false) {
+                return false;
+            }
+            $product = $price->product()->first();
+            return [
+                'id' => $plan->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'price' => $plan->amount,
+                'interval' => $plan->interval,
+                'currency' => $plan->currency,
+                'interval_count' => $plan->interval_count,
+            ];
+        })->reject(function ($value) {
+            return $value === false;
+        })->toArray();
+
+        return [
+            'year' => $year,
+            'month' => $month
+        ];
     }
 
     /**

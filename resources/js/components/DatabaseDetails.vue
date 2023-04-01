@@ -4,7 +4,7 @@
       There is no subscription available.
     </display-row>
 
-    <display-row v-if="subscription" label="Plan">
+    <display-row v-if="subscription" label="Plan" :is-first="true">
       {{ subscription.plan }}
     </display-row>
 
@@ -14,16 +14,11 @@
 
     <display-row v-if="subscription" class="remove-bottom-border" label="Status">
       <span v-if="subscription.on_grace_period"> On Grace Period </span>
-      <span
-        v-if="subscription.canceled || subscription.ends_at"
-        class="ml-4 text-red-600 dark:text-red-400"
-      >
+      <span v-if="subscription.canceled || subscription.ends_at" class="ml-4 text-red-600 dark:text-red-400">
         Canceled
       </span>
-      <span
-        v-if="subscription.active && !subscription.canceled && !subscription.ends_at"
-        class="text-green-600 dark:text-green-400"
-      >
+      <span v-if="subscription.active && !subscription.canceled && !subscription.ends_at"
+        class="text-green-600 dark:text-green-400">
         Active
       </span>
     </display-row>

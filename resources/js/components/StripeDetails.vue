@@ -16,15 +16,22 @@
       </display-row>
 
       <display-row v-if="subscription" label="Plan">
-        {{ subscription.stripe_plan }}
+        {{ subscription.stripe_plan }} - {{ subscription.plan_description }}
       </display-row>
 
       <display-row v-if="subscription" label="Change plan" class="relative flex">
         <select v-model="newPlan" class="form-control form-select-bordered form-select block">
           <option value="" disabled="disabled" selected="selected">Choose New Plan</option>
-          <option v-for="plan in plans" :key="plan.id" :value="plan.id">
-            {{ plan.name }} ({{ plan.price / 100 }} {{ plan.currency }} / {{ plan.interval }})
-          </option>
+          <optgroup label="Year">
+            <option v-for="plan in plans.year" :key="plan.id" :value="plan.id">
+              {{ plan.name }} - {{ plan.description }} ({{ plan.price / 100 }} {{ plan.currency }})
+            </option>
+          </optgroup>
+          <optgroup label="Month">
+            <option v-for="plan in plans.month" :key="plan.id" :value="plan.id">
+              {{ plan.name }} - {{ plan.description }} ({{ plan.price / 100 }} {{ plan.currency }})
+            </option>
+          </optgroup>
         </select>
 
         <button v-if="
@@ -51,15 +58,15 @@
       <display-row v-if="subscription" label="Status">
         <span v-if="subscription.on_grace_period">On Grace Period</span>
         <span v-if="subscription.canceled || subscription.cancel_at_period_end"
-          class="ml-4 text-red-600 dark:text-red-400">Canceled</span>
+          class="mr-4 text-red-600 dark:text-red-400">Canceled</span>
         <span v-if="
           subscription.active && !subscription.canceled && !subscription.cancel_at_period_end
-        " class="text-green-600 dark:text-green-400">Active</span>
+        " class="mr-4 text-green-600 dark:text-green-400">Active</span>
 
         <button v-if="
           subscription.active && !subscription.canceled && !subscription.cancel_at_period_end
         "
-          class="mt-2 ml-4 inline-flex h-9 flex-shrink-0 flex-shrink-0 items-center rounded bg-red-500 px-4 text-sm font-bold text-white shadow hover:bg-red-300 focus:outline-none focus:ring active:bg-red-600 dark:text-gray-800"
+          class="mt-2 inline-flex h-9 flex-shrink-0 flex-shrink-0 items-center rounded bg-red-500 px-4 text-sm font-bold text-white shadow hover:bg-red-300 focus:outline-none focus:ring active:bg-red-600 dark:text-gray-800"
           @click="$emit('cancel-subscription')">
           Cancel
         </button>

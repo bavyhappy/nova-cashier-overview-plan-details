@@ -66,7 +66,7 @@ class CashierOverviewServiceProvider extends ServiceProvider
     protected function registerMigrations()
     {
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         }
     }
 
@@ -79,7 +79,7 @@ class CashierOverviewServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../database/migrations' => $this->app->databasePath('migrations'),
+                __DIR__ . '/../../database/migrations' => $this->app->databasePath('migrations'),
             ], 'cashier-overview-details-migrations');
         }
     }
